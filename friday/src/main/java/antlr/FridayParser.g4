@@ -44,7 +44,7 @@ options {
 
 
   functionStatement
-  : accessModifier = (PRIVATE | PUBLIC)? FN name = IDENTIFIER LEFT_PAREN (
+  : accessModifier = (PRIVATE | PUBLIC)? FN name = (IDENTIFIER | OPERATOR_IDENTIFIER) LEFT_PAREN (
       paramsNames += IDENTIFIER 
       COL 
       paramsTypes += type 
@@ -59,7 +59,8 @@ options {
   ;
 
   structStatement
-  : accessModifier = (PRIVATE | PUBLIC)? STRUCT structName = IDENTIFIER LEFT_CURLY (
+  : accessModifier = (PRIVATE | PUBLIC)? STRUCT structName = IDENTIFIER typeParameters?
+    LEFT_CURLY (
       (accessModifier = (PRIVATE | PUBLIC)? fieldsNames += IDENTIFIER COL fieldsTypes += type SEMI) 
       | methods += functionStatement
     )*
@@ -179,10 +180,14 @@ expression
 
 
 type
-: IDENTIFIER                                                                                            # SimpleType
+: names += IDENTIFIER (DOT names += IDENTIFIER)*? typeParameters?                                       # SimpleType
 | STAR+ pointedType = type                                                                              # PointerType
 | (LEFT_SQUARE RIGHT_SQUARE) elementType = type                                                         # ArrayType
 | FN LEFT_PAREN (paramsTypes += type (COMMA paramsTypes += type)*)? RIGHT_PAREN ARROW returnType = type # FunctionType
+;
+
+typeParameters
+: LESS typenames += IDENTIFIER (COMMA typenames += IDENTIFIER)*? GREATER
 ;
 
 ///////////////////////////////////////////////////

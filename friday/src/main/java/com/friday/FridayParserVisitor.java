@@ -298,4 +298,10 @@ public interface FridayParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionType(FridayParser.FunctionTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link FridayParser#typeParameters}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeParameters(FridayParser.TypeParametersContext ctx);
 }

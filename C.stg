@@ -1,0 +1,32 @@
+forwardStructDecl(s) ::= "typedef struct <s.name> <s.name>;"
+
+structDecl(s) ::= <<
+struct <s.name> {
+  <s.fields: {field | <field.type> <field.name>; }; separator="\n">
+};
+>>
+
+forwardFunctionDecl(fn) ::= <<
+<fn.returnType> <fn.name>(<fn.params: {param | <param.type>}; separator=", ">);
+>>
+
+functionDecl(fn) ::= <<
+<fn.returnType> <fn.name>(<fn.params: {param | <param.type> <param.name>}; separator=", ">) {
+
+}
+>>
+
+
+program(
+  forwardStructDecls,
+  structDecls,
+  forwardFunctionDecls,
+  functionDecls
+) ::= <<
+#include \<friday-runtime.h\>
+
+<forwardStructDecls: forwardStructDecl(); separator="\n">
+<structDecls: structDecl(); separator="\n">
+<forwardFunctionDecls: forwardFunctionDecl(); separator="\n">
+<functionDecls: functionDecl(); separator="\n">
+>>
