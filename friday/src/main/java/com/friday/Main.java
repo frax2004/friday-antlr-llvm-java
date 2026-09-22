@@ -1,45 +1,51 @@
 package com.friday;
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.stringtemplate.v4.*;
-import org.stringtemplate.v4.misc.ObjectModelAdaptor;
 
 
 public class Main {
 
   public static interface CCodegen {
-    public final static record Field(String type, String name) {}
-    public final static record Param(String type, String name) {}
-    public final static record ForwardStructDecl(String name) {}
-    public final static record StructDecl(String name, List<Field> fields) {}
-    public final static record ForwardFunctionDecl(String returnType, String name, List<Param> params) {}
-    public final static record FunctionDecl(String returnType, String name, List<Param> params) {}
+    public final static record Field(String type, String name) {
+      public String getType() { return this.type; }
+      public String getName() { return this.name; }
+    }
+    public final static record Param(String type, String name) {
+      public String getType() { return this.type; }
+      public String getName() { return this.name; }
+    }
+
+    public final static record ForwardStructDecl(String name) {
+      public String getName() { return this.name; }
+    }
+
+    public final static record StructDecl(String name, List<Field> fields) {
+      public String getName() { return this.name; }
+      public List<Field> getFields() { return this.fields; }
+    }
+
+    public final static record ForwardFunctionDecl(String returnType, String name, List<Param> params) {
+      public String getReturnType() { return this.returnType;}
+      public String getName() { return this.name;}
+      public List<Param> getParams() { return this.params;}
+    }
+
+    public final static record FunctionDecl(String returnType, String name, List<Param> params) {
+      public String getReturnType() { return this.returnType; }
+      public String getName() { return this.name; }
+      public List<Param> getParams() { return this.params; }
+    }
 
     public static STGroup getGroup() {
-      STGroup group = new STGroupFile("C.stg");
-
-      for(Class<?> c : CCodegen.class.getDeclaredClasses()) {
-        group.registerModelAdaptor(c, new ObjectModelAdaptor<Object>() {
-          @Override 
-          public Object getProperty(Interpreter intt, ST self, Object o, Object prop, String name) {
-            try {
-              return o.getClass().getMethod(name).invoke(o);
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-              return super.getProperty(intt, self, e, prop, name);
-            }
-          }
-        });
-      }
-      
-      return group;
+      return new STGroupFile("C.stg");
     }
 
   }
 
   public static void main(String[] args) {
-    STGroup group = new STGroupFile("C.stg");
+    STGroup group = CCodegen.getGroup();
     ST template = group.getInstanceOf("program");
 
     var fwdStructDecls = List.of(

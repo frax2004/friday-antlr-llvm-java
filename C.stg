@@ -2,7 +2,7 @@ forwardStructDecl(s) ::= "typedef struct <s.name> <s.name>;"
 
 structDecl(s) ::= <<
 struct <s.name> {
-  <s.fields: {field | <field.type> <field.name>; }; separator="\n">
+  <s.fields: {field | <field.type> <field.name>;}; separator="\n">
 };
 >>
 
@@ -23,10 +23,66 @@ program(
   forwardFunctionDecls,
   functionDecls
 ) ::= <<
-#include \<friday-runtime.h\>
+//////////////////////////////
+///
+/// Include Directories
+///
+//////////////////////////////
+
+#include \<stdio.h\>
+#include \<stdlib.h\>
+#include \<string.h\>
+#include \<math.h\>
+#include \<stdint.h\>
+#include \<stdbool.h\>
+
+//////////////////////////////
+///
+/// Builtins
+///
+//////////////////////////////
+
+#define FRIDAY_API
+
+typedef double_t     friday_float;
+typedef int64_t      friday_int;
+typedef int8_t       friday_byte;
+typedef bool         friday_boolean;
+typedef void         friday_void;
+typedef int32_t      friday_cint;
+typedef int16_t      friday_cshort;
+typedef friday_void* friday_voidptr;
+typedef friday_byte* friday_byteptr;
+
+//////////////////////////////
+///
+/// Forward Struct Declarations
+///
+//////////////////////////////
 
 <forwardStructDecls: forwardStructDecl(); separator="\n">
+
+//////////////////////////////
+///
+/// Struct Definitions
+///
+//////////////////////////////
+
 <structDecls: structDecl(); separator="\n">
+
+//////////////////////////////
+///
+/// Forward Function Declarations
+///
+//////////////////////////////
+
 <forwardFunctionDecls: forwardFunctionDecl(); separator="\n">
+
+//////////////////////////////
+///
+/// Function Definitions
+///
+//////////////////////////////
+
 <functionDecls: functionDecl(); separator="\n">
 >>
