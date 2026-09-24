@@ -36,14 +36,14 @@
         <version>4.13.2</version>
         <configuration>
           <sourceDirectory>${project.basedir}/src/main/java/antlr</sourceDirectory>
-          <outputDirectory>${project.basedir}/src/main/java/com/friday</outputDirectory>
+          <outputDirectory>${project.basedir}/src/main/java/com/friday/frontend</outputDirectory>
           
           <visitor>true</visitor>
           <listener>false</listener>
           
           <arguments>
             <argument>-package</argument>
-            <argument>com.friday</argument>
+            <argument>com.friday.frontend</argument>
           </arguments>
         </configuration>
         <executions>
