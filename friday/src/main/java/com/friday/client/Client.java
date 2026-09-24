@@ -1,8 +1,8 @@
 package com.friday.client;
 
 
-public class Main {
+public interface Client {
   public static void main(String[] args) {
-    
+
   }
 }
