@@ -5,5 +5,5 @@ public interface Symbol {
   String getQualifiedId();
   String getFullQualifiedId();
   String getMangledId();
-  
+  SymbolTable getParent();
 }
