@@ -49,6 +49,12 @@ public interface FridayParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNativeFunctionStatement(FridayParser.NativeFunctionStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link FridayParser#enumStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEnumStatement(FridayParser.EnumStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link FridayParser#structStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -138,12 +144,33 @@ public interface FridayParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTrailingBlock(FridayParser.TrailingBlockContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code LambdaBasicBlock}
+	 * labeled alternative in {@link FridayParser#lambdaScope}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLambdaBasicBlock(FridayParser.LambdaBasicBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LambdaTrailingBlock}
+	 * labeled alternative in {@link FridayParser#lambdaScope}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLambdaTrailingBlock(FridayParser.LambdaTrailingBlockContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code MemberAccessExpression}
 	 * labeled alternative in {@link FridayParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMemberAccessExpression(FridayParser.MemberAccessExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TernaryExpression}
+	 * labeled alternative in {@link FridayParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTernaryExpression(FridayParser.TernaryExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code UnaryPostfixExpression}
 	 * labeled alternative in {@link FridayParser#expression}.
@@ -250,6 +277,13 @@ public interface FridayParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCharLiteralExpression(FridayParser.CharLiteralExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code LambdaExpression}
+	 * labeled alternative in {@link FridayParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLambdaExpression(FridayParser.LambdaExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code CallExpression}
 	 * labeled alternative in {@link FridayParser#expression}.
 	 * @param ctx the parse tree
@@ -298,10 +332,4 @@ public interface FridayParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionType(FridayParser.FunctionTypeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link FridayParser#typeParameters}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTypeParameters(FridayParser.TypeParametersContext ctx);
 }
